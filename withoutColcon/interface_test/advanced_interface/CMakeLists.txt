@@ -1,0 +1,60 @@
+cmake_minimum_required(VERSION 3.8)
+project(advanced_interface)
+
+add_subdirectory(basic_interface)
+
+find_package(rclcpp REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+find_package(ament_cmake REQUIRED)
+
+set(basic_interface_FOUND True)
+set(basic_interface__cpp_FOUND True)
+set(basic_interface__py_FOUND True)
+set(basic_interface__python_FOUND True)
+set(basic_interface__rosidl_generator_c_FOUND True)
+set(basic_interface__rosidl_typesupport_c_FOUND True)
+set(basic_interface__rosidl_typesupport_c__pyext_FOUND True)
+set(basic_interface__rosidl_typesupport_cpp_FOUND True)
+set(basic_interface__rosidl_typesupport_fastrtps_c_FOUND True)
+set(basic_interface__rosidl_typesupport_fastrtps_c__pyext_FOUND True)
+set(basic_interface__rosidl_typesupport_fastrtps_cpp_FOUND True)
+set(basic_interface__rosidl_typesupport_introspection_c_FOUND True)
+set(basic_interface__rosidl_typesupport_introspection_c__pyext_FOUND True)
+set(basic_interface__rosidl_typesupport_introspection_cpp_FOUND True)
+
+include_directories(
+	${CMAKE_BINARY_DIR}/basic_interface/rosidl_generator_cpp/
+	${CMAKE_BINARY_DIR}/basic_interface/rosidl_typesupport_introspection_cpp/
+	${CMAKE_BINARY_DIR}/basic_interface/rosidl_generator_c/
+	${CMAKE_BINARY_DIR}/basic_interface/rosidl_typesupport_introspection_c/
+	)
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+	msg/AdvancedArea.msg
+	#MARKER_END_OF_MESSAGELIST
+	DEPENDENCIES
+
+	basic_interface
+	basic_interface__cpp
+	basic_interface__py
+	basic_interface__python
+	basic_interface__rosidl_generator_c
+	basic_interface__rosidl_typesupport_c
+	basic_interface__rosidl_typesupport_cpp
+	basic_interface__rosidl_typesupport_fastrtps_cpp
+	basic_interface__rosidl_typesupport_introspection_c
+	basic_interface__rosidl_typesupport_introspection_cpp
+	)
+
+#this is currently necessary, because cmake does not resolve the dependencies properly
+target_link_libraries(  advanced_interface__rosidl_generator_c
+	basic_interface__rosidl_generator_c
+	basic_interface__rosidl_typesupport_c
+	basic_interface__rosidl_typesupport_introspection_c
+	)
+
+
+
+
+ament_package()
+
